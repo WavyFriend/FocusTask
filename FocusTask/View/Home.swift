@@ -61,15 +61,9 @@ struct Home: View {
                         }
                     }
 
-                    CompletedTodoList(showAll: $showAll)
-                }
-                .safeAreaInset(edge: .bottom) {
-                    Spacer().frame(height: 15) // Abstand zur Toolbar
+                    CompletedTodoList(showAll: $showAll, onDelete: deleteWithUndo)
                 }
 
-                .safeAreaInset(edge: .bottom) {
-                    Spacer().frame(height: 80)
-                }
             }
         }
         .toolbar {
@@ -115,8 +109,7 @@ struct Home: View {
                 .padding(.horizontal)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-            .padding(.bottom, 15) // Abstand zum Bottom-Bar Button
-
+            .padding(.bottom, 15)
         }
 
     }

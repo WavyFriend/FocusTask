@@ -114,13 +114,14 @@ struct TodoRowView: View {
         .task {
             todo.isCompleted = todo.isCompleted
         }
-        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+        .swipeActions {
             Button(role: .destructive) {
                 onDelete?()
             } label: {
                 Label("Löschen", systemImage: "trash")
             }
         }
+
     }
 }
 
