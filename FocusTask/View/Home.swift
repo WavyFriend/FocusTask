@@ -71,10 +71,10 @@ struct Home: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        withAnimation {
-                            let generator = UIImpactFeedbackGenerator(style: .light)
-                            generator.impactOccurred()
-                            
+                        let generator = UIImpactFeedbackGenerator(style: .light)
+                        generator.impactOccurred()
+
+                        withAnimation(.spring()) {
                             let todo = Todo(task: "", priority: .normal)
                             context.insert(todo)
                         }

@@ -26,13 +26,14 @@ struct TodoRowView: View {
                 Button(action: {
                     let generator = UIImpactFeedbackGenerator(style: .medium)
                     generator.impactOccurred()
-                    
-                    
-                    todo.isCompleted.toggle()
-                    localTodo.lastUpdated = .now
-                    WidgetCenter.shared.reloadAllTimelines()
-                    try? context.save()
-                    updateWidgetTodos()
+
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                        todo.isCompleted.toggle()
+                        localTodo.lastUpdated = .now
+                        try? context.save()
+                        updateWidgetTodos()
+                        WidgetCenter.shared.reloadAllTimelines()
+                    }
                 }) {
                     Image(systemName: localTodo.isCompleted ? "checkmark.circle.fill" : "circle")
                         .font(.title2)
@@ -41,6 +42,7 @@ struct TodoRowView: View {
                         .foregroundStyle(localTodo.isCompleted ? .gray : .accentColor)
                         .contentTransition(.symbolEffect(.replace))
                 }
+
             }
 
             TextField("Aufgabentitel", text: $localTodo.task)
