@@ -46,7 +46,7 @@ struct TodoListEntryView : View {
             if activeList.isEmpty {
                 // Zeige den "+"-Button in der Mitte
                 Button(action: {
-                    // Aktion zum Hinzufügen einer neuen Aufgabe (z.B. App öffnen oder Aufgabe hinzufügen)
+                    
                 }) {
                     Image(systemName: "plus.circle.fill")
                         .resizable()

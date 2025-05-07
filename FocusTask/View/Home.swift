@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct Home: View {
     @Query(filter: #Predicate<Todo> { !$0.isCompleted }, sort: [SortDescriptor(\Todo.lastUpdated, order: .reverse)], animation: .snappy)
@@ -30,6 +31,9 @@ struct Home: View {
                         
                         let todo = Todo(task: "", priority: .normal)
                         context.insert(todo)
+                        updateWidgetTodos()
+                        WidgetCenter.shared.reloadAllTimelines()
+
                     }) {
                         Text("Neue Aufgabe erstellen")
                             .fontWeight(.medium)
@@ -77,6 +81,9 @@ struct Home: View {
                         withAnimation(.spring()) {
                             let todo = Todo(task: "", priority: .normal)
                             context.insert(todo)
+                            updateWidgetTodos()
+                            WidgetCenter.shared.reloadAllTimelines()
+
                         }
                     }, label: {
                         Image(systemName: "plus")
