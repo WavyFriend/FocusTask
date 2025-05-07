@@ -39,42 +39,59 @@ struct SimpleEntry: TimelineEntry {
 struct TodoListEntryView : View {
     var entry: Provider.Entry
     
-    
     @Query(todoDescriptor, animation: .snappy) private var activeList: [Todo]
+    
     var body: some View {
-        Text("Aufgaben")
-        VStack(alignment: .leading) {
-            ForEach(activeList) { todo in
-                HStack(spacing: 5) {
-                    Button(intent: ToggleButton(id: todo.taskID)) {
-                        Image(systemName: "circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20, height: 20)
-                            .foregroundStyle(todo.priority.color.gradient)
-                    }
-                    .buttonStyle(.plain)
-
-                    
-                    Text(todo.task)
-                        .font(.callout)
-                        .lineLimit(1)
-                    
-                    Spacer(minLength: 0)
+        VStack {
+            if activeList.isEmpty {
+                // Zeige den "+"-Button in der Mitte
+                Button(action: {
+                    // Aktion zum Hinzufügen einer neuen Aufgabe (z.B. App öffnen oder Aufgabe hinzufügen)
+                }) {
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.accentColor)
                 }
-                .transition(.push(from: .bottom))
+                .padding(.top, 20)
+                
+                // Optional: Text anzeigen, dass keine Aufgaben vorhanden sind
+                Text("Keine To-Dos")
+                    .font(.callout)
+                    .padding(.top, 10)
+            } else {
+                // Zeige die Liste der Aufgaben
+                Text("Aufgaben")
+                    .font(.headline)
+                
+                VStack(alignment: .leading) {
+                    ForEach(activeList) { todo in
+                        HStack(spacing: 5) {
+                            Button(intent: ToggleButton(id: todo.taskID)) {
+                                Image(systemName: "circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .foregroundStyle(todo.priority.color.gradient)
+                            }
+                            .buttonStyle(.plain)
+
+                            Text(todo.task)
+                                .font(.callout)
+                                .lineLimit(1)
+
+                            Spacer(minLength: 0)
+                        }
+                        .transition(.push(from: .bottom))
+                    }
+                }
+                .padding(.top, 10)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .overlay {
-            if activeList.isEmpty {
-                Text("Keine To-Dos")
-                    .font(.callout)
-                    .transition(.push(from: .bottom))
-            }
-        }
-
     }
+    
     static var todoDescriptor: FetchDescriptor<Todo> {
         let predicate = #Predicate<Todo> { !$0.isCompleted }
         let sort = [SortDescriptor(\Todo.lastUpdated, order: .reverse)]
@@ -84,6 +101,8 @@ struct TodoListEntryView : View {
         return descriptor
     }
 }
+
+
 
 struct TodoList: Widget {
     let kind: String = "TodoList"
