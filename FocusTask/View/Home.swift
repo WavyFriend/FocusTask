@@ -9,7 +9,7 @@ struct Home: View {
     @Environment(\.modelContext) private var context
     @State private var showAll: Bool = false
     @State private var showUndo: Bool = false
-    @State private var isActive: Bool = false // Fokussteuerung für TextField
+    @State private var isActive: Bool = false
 
     @State private var recentlyDeleted: Todo?
 
@@ -23,7 +23,7 @@ struct Home: View {
                         .font(.system(size: 50))
                         .foregroundColor(.gray)
                     Text("Keine Aufgaben gefunden")
-                        .font(.system(size: 24, weight: .bold)) // Schriftgröße direkt setzen
+                        .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
                     Button(action: {
                         let generator = UIImpactFeedbackGenerator(style: .light)
@@ -97,7 +97,6 @@ struct Home: View {
             }
             
         }
-        // MARK: Undo Snackbar
         if showUndo {
             VStack {
                 Spacer()
@@ -130,7 +129,6 @@ struct Home: View {
             showUndo = true
         }
 
-        // Hide Undo after 4 seconds
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             withAnimation {
                 showUndo = false

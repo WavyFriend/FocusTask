@@ -50,6 +50,12 @@ struct TodoRowView: View {
                 .strikethrough(localTodo.isCompleted)
                 .foregroundStyle(localTodo.isCompleted ? .gray : .primary)
                 .focused($isActive)
+                .onChange(of: localTodo.task) { _, newValue in
+                    todo.task = newValue
+                    todo.lastUpdated = .now
+                    try? context.save()
+                    updateWidgetTodos()
+                }
             
 
 
